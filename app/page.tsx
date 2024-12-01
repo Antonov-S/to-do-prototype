@@ -4,6 +4,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import SignInBtn from "@/components/signin-btn";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -13,9 +14,11 @@ export default async function Home() {
         <ModeToggle />
         <h1>To Do Prototype</h1>
         {session ? (
-          <Button>
-            Go to App <ArrowRightIcon className="ml-2" />
-          </Button>
+          <Link href="/tasks">
+            <Button>
+              Go to App <ArrowRightIcon className="ml-2" />
+            </Button>
+          </Link>
         ) : (
           <SignInBtn />
         )}
