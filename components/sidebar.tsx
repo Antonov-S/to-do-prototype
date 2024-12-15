@@ -1,11 +1,13 @@
-import { HomeIcon, StarIcon, SunIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { HomeIcon, StarIcon, SunIcon } from "@radix-ui/react-icons";
+import { TaskCounts } from "@/types/task-counts";
 
 type SidebarProps = {
   onClick: () => void;
+  taskCounts: TaskCounts;
 };
 
-export default function Sidebar({ onClick }: SidebarProps) {
+export default function Sidebar({ onClick, taskCounts }: SidebarProps) {
   return (
     <div className="p-5">
       <ul className="flex flex-col gap-5">
@@ -20,7 +22,7 @@ export default function Sidebar({ onClick }: SidebarProps) {
               Day
             </div>
 
-            <div className="text-muted-foreground">3</div>
+            <div className="text-muted-foreground">{taskCounts.myDay ?? 0}</div>
           </Link>
         </li>
         <li>
@@ -34,7 +36,9 @@ export default function Sidebar({ onClick }: SidebarProps) {
               Important
             </div>
 
-            <div className="text-muted-foreground">3</div>
+            <div className="text-muted-foreground">
+              {taskCounts.important ?? 0}
+            </div>
           </Link>
         </li>
         <li>
@@ -48,7 +52,7 @@ export default function Sidebar({ onClick }: SidebarProps) {
               Tasks
             </div>
 
-            <div className="text-muted-foreground">3</div>
+            <div className="text-muted-foreground">{taskCounts.tasks ?? 0}</div>
           </Link>
         </li>
       </ul>

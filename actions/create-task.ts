@@ -5,17 +5,25 @@ import { db } from "@/lib/db";
 import { tasks } from "@/lib/schema";
 import { revalidatePath } from "next/cache";
 
-export async function createTask(title: string) {
+export type CreateTaskSchema = {
+  title: string;
+  isImportant: boolean;
+  addedToMyDayAt?: string;
+};
+
+export async function createTask(data: CreateTaskSchema) {
   const session = await auth();
   if (!session) {
     return {
-      message: "Not authenticated"
+      message: "unauthenticated"
     };
   }
-
-  await db.insert(tasks).values({
+  const dataToInsert = {
     userId: session.user.id,
-    title: title
-  });
+    title: data.title,
+    isImportant: data.isImportant,
+    addedToMyDayAt: data.addedToMyDayAt
+  };
+  await db.insert(tasks).values(dataToInsert);
   revalidatePath("/tasks");
 }
